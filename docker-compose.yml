@@ -1,0 +1,24 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ottodot-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: ottodot
+    ports:
+      - '5432:5432'
+    volumes:
+      - ottodot_pgdata:/var/lib/postgresql/data
+    # The app connects on startup, so wait until Postgres is actually accepting
+    # connections rather than merely running. `docker compose up -d --wait`
+    # then blocks until this passes.
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d ottodot']
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  ottodot_pgdata:

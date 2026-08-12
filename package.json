@@ -1,0 +1,50 @@
+{
+  "name": "ottodot_test",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "verify": "node scripts/verify.mjs",
+    "qa": "node scripts/qa-e2e.mjs",
+    "db:local": "node scripts/db-local.mjs",
+    "db:local:stop": "node scripts/db-local.mjs --stop",
+    "db:reset": "node scripts/db-reset.mjs",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "qa:a11y": "node scripts/a11y-audit.mjs",
+    "record": "node scripts/record-demo.mjs"
+  },
+  "dependencies": {
+    "axios": "^1.19.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^13.0.0",
+    "lenis": "^1.3.26",
+    "next": "15.5.23",
+    "postgres": "^3.4.9",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "server-only": "^0.0.1",
+    "tailwind-merge": "^3.6.0",
+    "zustand": "^5.0.14"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "axe-core": "^4.13.0",
+    "dotenv": "^17.4.2",
+    "embedded-postgres": "^18.4.0-beta.17",
+    "eslint": "^9",
+    "eslint-config-next": "15.5.23",
+    "playwright": "^1.62.1",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^4.1.10"
+  }
+}

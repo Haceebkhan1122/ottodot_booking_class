@@ -1,0 +1,239 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ */
+/* Design tokens                                                       */
+/*                                                                     */
+/* Every colour pair below was checked against WCAG 2.1 AA:            */
+/* body text >= 4.5:1, large text and non-text UI >= 3:1.              */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --bg: #fbfbfd;
+  --surface: #ffffff;
+  --surface-2: #f4f4f7;
+  --border: #e2e2e9;
+  --border-strong: #c9c9d4;
+
+  --text: #17171c;
+  --text-muted: #5a5a67;
+
+  --primary: #4f46e5;
+  --primary-hover: #4338ca;
+  --primary-soft: #eef2ff;
+  --primary-text: #3730a3;
+
+  --success: #047857;
+  --success-soft: #ecfdf5;
+  --success-text: #065f46;
+
+  --danger: #b91c1c;
+  --danger-soft: #fef2f2;
+  --danger-text: #991b1b;
+
+  --warning: #a16207;
+  --warning-soft: #fffbeb;
+  --warning-text: #854d0e;
+
+  --neutral-soft: #f4f4f7;
+  --neutral-text: #4b4b57;
+
+  --ring: #4f46e5;
+  --shadow-sm: 0 1px 2px rgb(16 16 24 / 0.06);
+  --shadow-md: 0 4px 16px -4px rgb(16 16 24 / 0.10);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0b10;
+    --surface: #15151c;
+    --surface-2: #1d1d26;
+    --border: #2a2a35;
+    --border-strong: #3d3d4a;
+
+    --text: #f2f2f6;
+    --text-muted: #a3a3b2;
+
+    /*
+     * The instinct in dark mode is to lift the brand colour, and the first
+     * pass here did exactly that (#6366f1). Measured against the white label
+     * it carries, it came out at 4.46:1 - a hair under AA, on the primary
+     * button of every screen. Held at the light-mode value it measures 6.3:1.
+     * `--ring` stays bright, because a focus ring only needs 3:1 against its
+     * neighbours and wants to be loud.
+     */
+    --primary: #4f46e5;
+    --primary-hover: #4338ca;
+    --primary-soft: #1e1b4b;
+    --primary-text: #c7d2fe;
+
+    --success: #059669;
+    --success-soft: #052e26;
+    --success-text: #6ee7b7;
+
+    --danger: #dc2626;
+    --danger-soft: #3f1212;
+    --danger-text: #fca5a5;
+
+    --warning: #d97706;
+    --warning-soft: #3a2708;
+    --warning-text: #fcd34d;
+
+    --neutral-soft: #232330;
+    --neutral-text: #c3c3d0;
+
+    --ring: #818cf8;
+    --shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+    --shadow-md: 0 4px 16px -4px rgb(0 0 0 / 0.5);
+  }
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-text: var(--text);
+  --color-text-muted: var(--text-muted);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-soft: var(--primary-soft);
+  --color-primary-text: var(--primary-text);
+
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-success-text: var(--success-text);
+
+  --color-danger: var(--danger);
+  --color-danger-soft: var(--danger-soft);
+  --color-danger-text: var(--danger-text);
+
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-warning-text: var(--warning-text);
+
+  --color-neutral-soft: var(--neutral-soft);
+  --color-neutral-text: var(--neutral-text);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+
+html {
+  /* Lenis drives scrolling; without this the browser fights it. */
+  scroll-behavior: auto;
+  /* Stops layout shifting sideways when a page grows past the viewport. */
+  scrollbar-gutter: stable;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * WCAG 2.4.7 Focus Visible + 2.4.11 Focus Not Obscured.
+ * One ring definition for the whole app so keyboard users never have to
+ * guess where they are. `:focus-visible` (not `:focus`) keeps it off mouse
+ * clicks, and the offset keeps it clear of the element's own border.
+ */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* We never remove focus styles - only replace them where a component draws
+   its own ring. Anything that opts out must set one of its own. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced motion - WCAG 2.3.3 Animation from Interactions             */
+/*                                                                     */
+/* Lenis and Framer Motion are also disabled in JS (see                */
+/* hooks/usePrefersReducedMotion.ts). This block is the safety net for  */
+/* anything that animates purely in CSS.                               */
+/* ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ------------------------------------------------------------------ */
+/* Utilities                                                           */
+/* ------------------------------------------------------------------ */
+
+/* Visible to screen readers, invisible on screen. Used for live regions
+   and for labels that would be redundant sighted. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Skip link: hidden until focused, then pinned top-left. WCAG 2.4.1. */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  /*
+   * Must clear the element's own m-3 margin as well as its height.
+   * -120% only covered 1.2x the height, so with a 12px top margin a few
+   * pixels of the link stayed parked at the top-left corner of every page.
+   */
+  transform: translateY(calc(-100% - 2rem));
+  transition: transform 0.15s ease;
+}
+
+/*
+ * `:focus`, not `:focus-visible`.
+ *
+ * A skip link is only reachable by keyboard in the first place, so the
+ * heuristic buys nothing - and if anything ever focuses it without tripping
+ * `:focus-visible` (a screen reader's virtual cursor, a programmatic
+ * `.focus()`), the link would take focus while staying off-screen. That is
+ * worse than no skip link at all: the user is now on a control they cannot
+ * see.
+ */
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+/* Indeterminate progress stripe used by the "slow bank" payment state. */
+@keyframes indeterminate {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+.animate-indeterminate {
+  animation: indeterminate 1.4s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
