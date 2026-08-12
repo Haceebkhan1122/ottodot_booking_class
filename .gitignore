@@ -42,7 +42,3 @@ next-env.d.ts
 
 # Local Postgres data directory (npm run db:local)
 .pgdata/
-
-# Video walkthrough footage (npm run record) - submitted as a link, not a file
-video/
-VIDEO_SCRIPT.md
