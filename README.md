@@ -1,4 +1,4 @@
-# Ottodot Booking Class
+# Ottodot Booking Class || Nextjs || Nodejs || PostgreSQL
 
 A trial-class booking system built to solve a single, deceptively simple problem: **when two parents go for the last seat in a class at the same time, at most one of them may end up confirmed.**
 
